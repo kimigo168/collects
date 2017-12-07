@@ -902,3 +902,52 @@ exports.install = function(Vue, options) {
     var d= new Date(year, month, 0);  
     return d.getDate();  
   }  
+  //鼠标按钮监听，监听是按了哪个键
+  //mouseup(e) e.button : 0,左，1中，2右键
+  //页面初始加载
+  function setPageSize() {
+    if (window.innerWidth == 0) {
+      setTimeout(function() {
+        setPageSize()
+      }, 200);;
+    } else {
+      // var winWidth = window.innerWidth;
+      // window.document.documentElement.style.width = winWidth + "px";
+      // document.documentElement.style.fontSize = ((window.innerWidth * 20) / 1920).toFixed(2) + "px";
+  
+      var winWidth = window.innerWidth;
+      var winHeight = window.innerHeight;
+      var fontWidth = (window.innerWidth * 20) / 1920;
+      var fontHeight = (window.innerHeight * 20) / 1080;
+      window.document.documentElement.style.width = winWidth + "px";
+      window.document.documentElement.style.height = winHeight + "px";
+  
+      document.documentElement.style.fontSize = (fontWidth > fontHeight ? fontHeight : fontWidth).toFixed(2) + "px";
+    }
+  };
+  //页面加载完毕后处理
+  setPageSize();
+  window.onload = function() {
+    setPageSize();
+    //禁止鼠标右键菜单显示
+    document.oncontextmenu = function() {
+      return false
+    };
+  };
+  //页面宽度改变
+  window.onresize = function() {
+    setPageSize();
+  }
+
+  //main.js
+  Vue.prototype.$base64 = Base64;
+  
+  Vue.prototype.$axios = axios;
+  Vue.prototype.$qs = qs;
+  //公共url
+  Vue.prototype.$global = global;
+  Vue.prototype.$model = model;
+
+
+  //
+  var bb = /^\/{1}.(\.jpg|png)$/

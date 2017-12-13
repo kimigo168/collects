@@ -951,3 +951,22 @@ exports.install = function(Vue, options) {
 
   //
   var bb = /^\/{1}.(\.jpg|png)$/
+methods: {
+      //点击左侧刷新数据
+      clickLeftResData(index) {
+        this.$emit('resLeftData', index);
+      },
+      //滚动事件
+      scrollLeft: function(e){
+        if((e.srcElement.clientHeight+e.srcElement.scrollTop)==e.srcElement.scrollHeight&&e.srcElement.scrollTop!=0){
+          e.srcElement.scrollTop -= 10;
+          this.$emit('scrollPushData','');
+        }
+      }
+    },
+    mounted() {
+      console.log('接收的左侧数据',this.residentsLeft)
+      // 左侧滚动加载数据
+      let orderLeft = document.querySelector("#residentLeft");
+      orderLeft.addEventListener("scroll", this.scrollLeft, false);
+    }

@@ -8,3 +8,20 @@ this.chosedIndexArr.map((value,index) => {
   that.$set(that.checkedCities,index,'');
   that.$set(that.checkedCityKeys,index,'');
 });
+// 或深拷贝
+const deepClone = data => {
+  if (data === null || typeof data !== 'object') {
+      return data;
+  }
+  const obj = Array.isArray(data) ? [] : {};
+  if (Array.isArray(data)) {
+      for (let i = 0, len = data.length; i < len; i++) {
+          obj.push(deepClone(data[i]));
+      }
+  } else {
+      for (let key in data) {
+          obj[key] = deepClone(data[key]);
+      }
+  }
+  return obj;
+};

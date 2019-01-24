@@ -205,4 +205,11 @@ p.then(data =>{
   console.log(data);
 })
 
-// 21.
+// 21. stringObject.charAt(index) 返回指定位置的字符
+// 22.如果输入框隐藏光标
+// （1）color: transparent;text-shadow: 0 0 0 #000;
+// （2）   caret-color: transparent;
+// （3）设置placeholder颜色input::-webkit-input-placeholder，input::-moz-placeholder，input::-ms-input-placeholder
+// 23.子元素均匀分布，父容器 
+  // display: flex;
+  // justify-content: space-between;

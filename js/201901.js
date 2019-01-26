@@ -213,3 +213,6 @@ p.then(data =>{
 // 23.子元素均匀分布，父容器 
   // display: flex;
   // justify-content: space-between;
+// 24.控制光标位置
+  // element.focus(); // 输入框获取焦点，但当文本过长的时候文本最后和光标不一同显示在输入框右边，而是隐藏起来了
+// element.selectionStart = element.selectionEnd  = newLocation; // 更新光标位置，将之前算的新位置给输入框光标

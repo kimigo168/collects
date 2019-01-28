@@ -216,3 +216,22 @@ p.then(data =>{
 // 24.控制光标位置
   // element.focus(); // 输入框获取焦点，但当文本过长的时候文本最后和光标不一同显示在输入框右边，而是隐藏起来了
 // element.selectionStart = element.selectionEnd  = newLocation; // 更新光标位置，将之前算的新位置给输入框光标
+
+// 25.Vue、React打包文件放在服务器，浏览器存在缓存问题的解决
+// 因浏览器缓存原因导致vue 打包的文件 导致偶尔会出现不能即使更新最新代码。因此在打包的文件名中添加一个版本号以便浏览器能区分。
+// 解决方法：找到webpack .prod.conf.js
+// 1.定义版本变量： const  Version = new Date().getTime(); // 这里使用的是时间戳 来区分 ，也可以自己定义成别的如：1.1
+// 2.修改要生成的js和css文件的配置项，把刚刚声明的版本拼接进要生成的文件名中；  
+// output: {
+//     path: config.build.assetsRoot,
+//     filename: utils.assetsPath('js/[name].[chunkhash].' + Version + '.js'),
+//     chunkFilename: utils.assetsPath('js/[id].[chunkhash].' + Version + '.js')
+// }
+// 然后直接 npm run build 打包后 就可以看到dist 文件里的js 文件名带上里版本号
+
+// 普通项目可以
+{/* <script>
+document.write('<script type="text/javascript" src="jquery.js?'+Math.random()+'"><\/script>');
+</script> */}
+// 刷新页面数据： https://segmentfault.com/a/1190000017007631
+

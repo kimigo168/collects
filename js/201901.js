@@ -235,3 +235,65 @@ document.write('<script type="text/javascript" src="jquery.js?'+Math.random()+'"
 </script> */}
 // 刷新页面数据： https://segmentfault.com/a/1190000017007631
 
+// 26.vue 页面刷新方法：
+// （1）this.$router.go(0)（2）location.reload()  屏幕一闪，效果不好
+// (3)跳转空白页再跳回原页面
+// this.$router.push('/emptyPage'),跳转到一个空白页
+// emptyPage.vue里beforeRouteEnter 钩子里控制页面跳转，从而达到刷新的效果
+// beforeRouteEnter (to, from, next) {
+//   next(vm => {
+//     vm.$router.replace(from.path)
+//   })
+// }
+// 这种画面虽不会一闪，但是能看见路由快速变化
+// (4)控制<router-view>的显示隐藏
+{/* 父：<template>
+  <div id="app">
+    <router-view v-if="isRouterAlive"></router-view>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  }
+}
+</script>
+子：
+inject: ['reload'],
+直接调用reload方法 */}
+// （5）main.js：Vue.prototype.$bus = new Vue()
+// 子：home.vue： changeProfile （） {this.$bus.$emit('change')}
+
+// 父：mounted () {
+//   this.$bus.$on('change', ()=> {
+//     this.doSomething()
+//   })
+// },
+// 27.在Vue生命周期的created()钩子函数进行的DOM操作一定要放在Vue.nextTick()的回调函数中
+// 在created()钩子函数执行的时候DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进Vue.nextTick()的回调函数中。
+// 与之对应的就是mounted()钩子函数，因为该钩子函数执行时所有的DOM挂载和渲染都已完成，此时在该钩子函数中进行任何DOM操作都不会有问题 。
+function add (a, b) {
+  return a + b;
+}
+function sub (a, b) {
+  return a - b;
+}
+

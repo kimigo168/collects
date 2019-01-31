@@ -1,0 +1,1 @@
+// 1. function () {} , prototype来创建一个类，用class

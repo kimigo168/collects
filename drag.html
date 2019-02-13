@@ -1,0 +1,54 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    body{
+      position: relative;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="test" style="height: 100px;width: 100px;background:pink;position:absolute;top:0;left:0;">
+      测试文字
+    </div>
+    <script>
+      test.onmousedown = function(e){
+      e = e || event;
+      //获取元素距离定位父级的x轴及y轴距离
+      var x0 = this.offsetLeft;
+      var y0 = this.offsetTop;
+      console.log('this', this)
+      console.log('x0', x0)
+      console.log('y0', y0)
+      //获取此时鼠标距离视口左上角的x轴及y轴距离
+      var x1 = e.clientX;
+      var y1 = e.clientY;
+      console.log('e1', e)
+      document.onmousemove = function(e){
+        e = e || event;
+        console.log('e2', e)
+        //获取此时鼠标距离视口左上角的x轴及y轴距离
+        x2 = e.clientX;
+        y2 = e.clientY;
+        //计算此时元素应该距离视口左上角的x轴及y轴距离
+        var X = x0 + (x2 - x1);
+        var Y = y0 + (y2 - y1);
+        //将X和Y的值赋给left和top，使元素移动到相应位置
+        test.style.left = X + 'px';
+        test.style.top = Y + 'px';
+      }
+      
+      document.onmouseup = function(e){
+        //当鼠标抬起时，拖拽结束，则将onmousemove赋值为null即可
+        document.onmousemove = null;
+      }
+      //阻止默认行为
+      return false;
+      }
+    </script>
+  </body>
+  </html>

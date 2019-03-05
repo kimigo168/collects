@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>document</title>
+  <link rel="stylesheet" href="css/clock.css">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="clockBorder">
+      <div class="clock">
+        <span class="timeType">北京时间</span>
+        <ul class="minute-marks">
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="five"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div id="hour">
+          <div class="hand"></div>
+        </div>
+        <div id="minute">
+          <div class="hand"></div>
+        </div>
+        <div id="second">
+          <div class="hand"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var hour = document.getElementById("hour"),
+        min = document.getElementById("minute"),
+        sec = document.getElementById("second");
+    var clock = function() {
+        var now = new Date(), //now
+            then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0), //midnight
+            diffInMil = (now.getTime() - then.getTime()), // difference in milliseconds
+            h = (diffInMil / (1000 * 60 * 60)), //hours
+            m = (h * 60), //minutes
+            s = (m * 60); //seconds
+        //rotate the hands accordingly
+        sec.style.webkitTransform = "rotate(" + (s * 6) + "deg)";
+        hour.style.webkitTransform = "rotate(" + (h * 30 + (h / 14)) + "deg)";
+        min.style.webkitTransform = "rotate(" + (m * 6) + "deg)";
+    }
+
+    //时钟事件
+    clock();
+    var clockInt = setInterval(function() {
+        clock();
+        
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -146,3 +146,187 @@ Vue.directive('focus', {
 
 // https://vue-loader-v14.vuejs.org/zh-cn/features/scoped-css.html
 
+// ES6 中的工厂模式
+// https://www.jianshu.com/p/11918dd0f694
+class User {
+  constructor (opt) {
+    this.name = opt.name;
+    this.viewPage = opt.viewPage;
+  }
+  // 静态方法
+  static getInstance (role) {
+    switch (role) {
+      case 'superAdmin': 
+        return new User({name: '超级管理员', viewPage: ['首页', '通讯录', '发现页']});
+        break;
+      case 'admin':
+        return new User({name: '管理员', viewPage: ['首页', '发现页', '应用类']});
+        break;
+      default: 
+        throw new Error('参数错误')
+    }
+  }
+}
+let superAdmin = User.getInstance('superAdmin')
+let admin = User.getInstance('admin');
+
+// 应用
+// 1.普通方法
+import Vue from 'vue'
+import Router from 'vue-router'
+import Login from '../components/Login.vue'
+import SuperAdmin from '../components/SuperAdmin.vue'
+import NormalAdmin from '../components/NormalAdmin.vue'
+import User from '../components/User.vue'
+import NotFound404 from '../components/404.vue'
+
+Vue.use(Router);
+
+export default new Router({
+  routes: [
+    // 重定向到登录页面
+    {
+      path: '/',
+      redirect: '/login'
+    },
+    // 登录页
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    // 超级管理员页面
+    {
+      path: '/super-admin',
+      name: 'SuperAdmin',
+      components: SuperAdmin
+    },
+    // 普通管理员页面
+    {
+      path: '/normal-admin',
+      name: 'NormalAdmin',
+      component: NormalAdmin
+    },
+    // 普通用户页面
+    {
+      path: '/user',
+      name: 'User',
+      component: User
+    },
+    // 404页面
+    {
+      path: '*',
+      name: 'NotFound404',
+      component: NotFound404
+    }
+  ]
+});
+
+// 2.改进方法
+// 在登陆的时候根据权限使用vue-router提供的addRoutes方法给予用户相对应的路由权限
+// router/index.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import Login from '../components/Login.vue'
+
+Vue.use(Router);
+
+export default new Router({
+  routes: [
+    // 重定向到登录页面
+    {
+      path: '/',
+      redirect: '/login'
+    },
+    // 登录页
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    }
+  ]
+})
+// router/routerFactory.js
+import SuperAdmin from '../components/SuperAdmin.vue'
+import NormalAdmin from '../components/NormalAdmin.vue'
+import User from '../components/User.vue'
+import NotFound404 from '../components/404.vue'
+
+let AllRoute = [
+  // 超级管理员页面
+  {
+    path: '/super-admin',
+    name: 'SuperAdmin',
+    components: SuperAdmin
+  },
+  // 普通管理员页面
+  {
+    path: '/normal-admin',
+    name: 'NormalAdmin',
+    component: NormalAdmin
+  },
+  // 普通用户页面
+  {
+    path: '/user',
+    name: 'User',
+    component: User
+  },
+  // 404页面
+  {
+    path: '*',
+    name: 'NotFound404',
+    component: NotFound404
+  }
+]
+
+let routerFactory = (role) => {
+  switch (role) {
+    case 'superAdmin':
+      return {
+        name: 'SuperAdmin',
+        route: AllRoute
+      };
+      break;
+    case 'normalAdmin':
+      return {
+        name: 'NormalAdmin',
+        route: AllRoute.splice(1)
+      };
+      break;
+    case 'user':
+      return {
+        name: 'User',
+        route: AllRoute.splice(2)
+      };
+      break;
+    default: 
+      throw new Error('参数错误')
+  }
+}
+
+export { routerFactory }
+
+// 在Login.vue，请求登陆接口后根据权限添加路由
+// Login.vue
+import { routerFactory } from '../router/routerFactory.js'
+export default {
+  // ...
+  methods: {
+    userLogin () {
+      // 请求登录接口，获取用户权限，根据权限调用this.getRoute()方法
+      // session存储用户权限，
+      this.getRoute();
+    },
+    getRoute(role) {
+      let routerObj = routerFactory(role);
+      // 给vue-router 添加该权限所拥有的路由页面
+      this.$router.addRoutes(routerObj.route);
+      // 跳转到相应页面
+      this.$router.push({name: routerObj.name});
+    }
+  }
+}
+
+// 注意：
+// 在实际项目中，因为使用this.$router.addRoutes方法添加的路由刷新后不能保存，所以会导致路由无法访问。
+// 通常的做法是本地加密保存用户信息，在刷新后获取本地权限并解密，根据权限重新添加路由。

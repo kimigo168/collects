@@ -169,3 +169,19 @@ router.afterEach((to, from) => {
 // 不得不提的, beforeRouteEnter的next勾子
 // beforeRouteEnter的执行顺序是如此靠前，而其中next的回调勾子的函数，执行则非常靠后，在mounted之后！！
 // 我们通常是在beforeRouteEnter中加载一些首屏用数据，待数据收到后，再调用next勾子，通过回调的参数vm将数据绑定到实例上。
+
+// 通过JSON.parse(JSON.stringify(...)) 得到深拷贝数据
+
+// 不应该用箭头函数定义method函数，箭头函数绑定了父级作用域的上下文，this不会指定期望的Vue实例
+
+// watch: handler: function (val, oldVal){},deep: true, immediate: true // 回调会在侦听开始之后，立即调用
+
+// DOM选项：el / template / render / renderError
+
+this.$watch('a', callback, {
+  immediate: true,
+  deep: true // 监听数组变动，不要这么做
+})
+
+// v-slot v2.6.0 替换废弃的 slot、slot-scope 
+//<component :is=""></componet> 动态组件

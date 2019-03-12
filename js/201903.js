@@ -330,3 +330,49 @@ export default {
 // 注意：
 // 在实际项目中，因为使用this.$router.addRoutes方法添加的路由刷新后不能保存，所以会导致路由无法访问。
 // 通常的做法是本地加密保存用户信息，在刷新后获取本地权限并解密，根据权限重新添加路由。
+
+// 区分 android 和ios
+if (/(iPhone|iPad|iOS)/i.test(navigator.userAgent)) {
+
+} else if (/(Android)/i.test(navigator.userAgent)) {
+  
+}
+
+// 一、h5与android交互，android用的是WebViewJavascriptBridge
+// android调用h5的方法，并传递消息：
+bridgeJavascript () {
+  let that = this;
+  window.WebViewJavascriptBridge.callHandler('queHistory', // 与android一起定义的共同方法名
+    {}, // 参数
+    function (res) {
+      res = JSON.parse(res);
+      alert(res.token)
+    }
+  );
+}
+// h5传递消息给android:
+if (type == 'android') {
+  window.WebViewJavascriptBridge.send(data, // 返回的响应
+    function (res) {
+      alert(res)
+    }  
+  )
+}
+// 二、h5与ios交互，这里ios用的是window.webkit.messageHandlers
+// ios调用h5页面方法，并传递消息
+messageHandlers_IOSJavascript(userNum, tokensIos) {
+  let that = this;
+  userN = userNum;
+  tokenA = tokenIos;
+  that.loadData(userNum, tokenIos, '', '');
+}
+mounted() {
+  window.messageHandlers_IOSJavascript = this.messageHandlers_IOSJavascript;
+}
+bridgeMessageDetail (tmp) { // 调用ios,and方法传参
+  let dict = {
+    'resultStatus': tmp.resultStatus,
+    'resultMessage': tmp.resultMessage
+  };
+  window.webkit.messageHandlers.FirstJsObject2.postMessage(dict); // 需要在android内注册个方法名FirstJsObject2
+}

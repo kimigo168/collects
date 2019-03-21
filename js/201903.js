@@ -376,3 +376,87 @@ bridgeMessageDetail (tmp) { // 调用ios,and方法传参
   };
   window.webkit.messageHandlers.FirstJsObject2.postMessage(dict); // 需要在android内注册个方法名FirstJsObject2
 }
+
+// ES6-10新特性
+// (1) 扁平化n维数组
+let arr = [1, [2, 3]].flat(2); // arr [1, 2, 3];
+
+// 实质
+function flatten(arr) {
+  while (arr.some(item => Array.isArray(item))) {
+    arr = [].contact(...arr)
+  }
+  return arr;
+}
+// (2)去重
+Array.from(new Set([1, 2, 3, 2]))
+// [...new Set([1,2,3,2])]
+
+// 开始
+Array.prototype.distinct = function () {
+  let arr = this,
+    result = [],
+    i,
+    j,
+    len = arr.length;
+  for (i = 0; i < len; i++) {
+    for (j = i+1; j < len; j++) {
+      if (arr[i] === arr[j]) {
+        j = ++i;
+      }
+    }
+    result.push(arr[i])
+  }
+  return result;
+}
+[1, 2, 3, 2, 5].distinct();
+
+// (3)排序
+[1, 2, 3, 4].sort(); // 默认升序
+[1, 2, 3, 4].sort((a, b) => b -a); // 降序 [4, 3, 2, 1] 
+
+// 开始 冒泡排序
+
+// (4)最大值
+Math.max(...[1, 2, 3, 4]) // 4
+Math.max.apply(this, [1, 2, 3, 4]);
+[1, 2, 3, 4].reduce((prev, cur, curIndex, arr) => {
+  return Math.max(prev, cur);
+})
+
+// 开始，先排序，再求值
+
+// (5)求和
+[1, 2, 3].reduce((prev, next) => {
+  return prev + next;
+});
+
+// (6)合并数组
+[1, 2, 3, 4].concat([5, 6]);
+[...[1, 2, 3, 4], ...[6, 7]];
+[1, 2, 3, 4].push.apply([1, 2, 3, 4], [5, 6])
+
+// (7)判断是否包含某值
+[1, 2, 3].includes(4); // false
+[1, 2, 3].indexOf(4) // -1
+[1, 2, 3].find((item) => item === 3) // 如果无，返回undefined
+[1, 2, 3].findIndex((item) => item === 3) // 如果无，返回-1
+
+// 开始
+[1, 2, 3].some(item => {
+  return item == 3;
+})
+
+let arr1 = [{name:'xiao'}, {name: 'li'}, {name: 'wang'}];
+// let output = arr.find(item => item.name == 'xiao'); // 返回{name: 'xiao'}
+
+// (8)类数组转化   类数组表示有length,但不具备数组的方法
+Array.prototype.slice.call(arguments);
+Array.prototype.slice.apply(arguments)
+Array.from(arguments) // Array.from：将类似数组或可迭代对象创建为数组。
+[...arguments] // 将类数组扩展为字符串，再定义为数组。
+
+// (9) 为每一项设定值
+[1, 2, 3].fill(false) // [false, false, false]
+
+Object.entries({name:'张三',age:14}) //[[name,'张三'],[age,14]]

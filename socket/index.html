@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>websocket初体验</title>
+</head>
+<body>
+  <script>
+    let ws = new WebSocket('ws://localhost:9999');
+    // onopen客户端与服务端建立连接后触发
+    ws.onopen = () => {
+      ws.send(`哎呦不错哦`)
+    }
+
+    // onmessage服务端给客户端发来数据时触发
+    ws.onmessage = (res) => {
+      console.log('res',res)
+      console.log(res.data); // 真正的消息
+    }
+    
+  </script>
+</body>
+</html>

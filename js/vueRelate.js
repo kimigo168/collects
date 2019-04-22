@@ -72,17 +72,17 @@ import service from './service.js'
 Vue.use(service)
 
 // 链接：
-// https://www.cnblogs.com/onepixel/p/5218904.html
-// https://blog.csdn.net/mooncom/article/details/53183154/
+// https://www.cnblogs.com/onepixel/p/5218904.html  正则校验
+// https://blog.csdn.net/mooncom/article/details/53183154/  postMessage
 // https://www.itcnz.top/20180320/mynuxt.html
-// https://cn.vuejs.org/v2/cookbook/avoiding-memory-leaks.html
-// https://www.jb51.net/article/142537.htm
+// https://cn.vuejs.org/v2/cookbook/avoiding-memory-leaks.html //内存泄漏
+// https://www.jb51.net/article/142537.htm  // 内存泄漏
 // https://www.vue-js.com/topic/5bcdc9a87385fcae2fd1830e
-// https://www.cnblogs.com/woniubushinide/p/8024051.html
-// https://segmentfault.com/a/1190000010034177
-// https://cnodejs.org/topic/5be29f7c21d75b74609f4fbf
-// https://www.cnblogs.com/acharless/p/70bf8cbd81054e45ea04ba294556a56d.html
-// https://www.jianshu.com/p/327e38aec874
+// https://www.cnblogs.com/woniubushinide/p/8024051.html // 内存泄漏
+// https://segmentfault.com/a/1190000010034177 // h5移动端上传图片
+// https://cnodejs.org/topic/5be29f7c21d75b74609f4fbf // 申请https证书
+// https://www.cnblogs.com/acharless/p/70bf8cbd81054e45ea04ba294556a56d.html // 部署小程序到nodejs服务器
+// https://www.jianshu.com/p/327e38aec874 // Promise实现
 // https://segmentfault.com/a/1190000018017796?utm_source=tag-newest
 
 // 组件生命周期

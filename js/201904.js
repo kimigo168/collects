@@ -124,3 +124,34 @@ renderAll().then((val) => console.log(val))
 function renderRace () {
   return Promise.race([getJSON(url), getJSON(url1)])
 }
+
+// 4.Provisional headers are shown
+// 之所以会出现这个警告，是因为去获取该资源的请求其实并（还）没有真的发生，所以 Header 里显示的是伪信息，直到服务器真的有响应返回，这里的 Header 信息才会被更新为真实的。不过这一切也可能不会发生，因为该请求可能会被屏蔽。比如说 AdBlock 什么的，当然了不全是浏览器扩展，具体情况具体分析了
+
+// 出现在 载入缓存资源,请求没有被发送, 而如果上一个资源加载失败,可能导致从缓存加载的资源失败,
+// 即缓存资源请求之前的请求不能失败,不然就有可能出现问题
+
+// 5.短路求值
+// 三目运算符的简便写法 
+// && 将返回第一个false的值，当所有的操作数都是true时，返回最后一个表达式的结果
+let one = 1, two = 2, three = 3;
+console.log(one && two && three) // result:3
+console.log(0 && null) // result: 0
+
+// || 运算符，将返回第一个true/truthy的值，当所有操作数都是false时，将返回最后一个表达式的结果
+let one = 1,two = 2,three = 3;
+console.log(one || two || three) // 1
+console.log(0 || null) // 0
+
+// 例子：服务端请求数据过程
+if (this.state.data) {
+  return this.state.data;
+} else {
+  return 'Fetching data'
+}
+// 写成 
+return (this.state.data || 'Fetching Data')
+// 6.快速求幂,跟指数的区别
+// 以前 Math.pow(2,3) => console.log(2 ** 3);
+
+

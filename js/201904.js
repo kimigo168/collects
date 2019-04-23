@@ -153,5 +153,34 @@ if (this.state.data) {
 return (this.state.data || 'Fetching Data')
 // 6.快速求幂,跟指数的区别
 // 以前 Math.pow(2,3) => console.log(2 ** 3);
+// 7.Object.freeze() 
+//  冻结一个对象，一个冻结对象不能再修改，也不能添加新的属性，删除已有属性
+// 不能修改该对象已有熟悉的可枚举性，可配置性，可写，不能修改已有属性值
+// 原型也不能再修改
+const object1 = {property: 42}
+const object2 = Object.freeze(object1)
+object2.property = 33;
+object2.property // 42
+// 应用：
+var emptyObject = Object.freeze({}) // 后面用emptyObject 和其它对象比较，是否为空
+// vue源码：
+// (function(global, factory){//.....}(this, function(){}))
 
+//8.Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
+const person = {
+  isHuman: false,
+  printIntroduction: function () {
+    console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+  }
+};
 
+const me = Object.create(person);
+
+me.name = "Matthew"; // "name" is a property set on "me", but not on "person"
+me.isHuman = true; // inherited properties can be overwritten
+
+me.printIntroduction();
+
+// Object.create(null)没有继承任何原型方法，也就是说它的原型链没有上一层。
+console.log(Object.create({}).toString);   // function toString() { [native code] }
+console.log(Object.create(null).toString); // undefined

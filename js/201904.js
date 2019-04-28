@@ -184,3 +184,55 @@ me.printIntroduction();
 // Object.create(null)没有继承任何原型方法，也就是说它的原型链没有上一层。
 console.log(Object.create({}).toString);   // function toString() { [native code] }
 console.log(Object.create(null).toString); // undefined
+// 9.什么是函数式编程？函数式编程是一种强调以函数使用为主的软件开发风格。目的是使用函数来抽象作用在数据之上的控制流和操作，从而在系统中消除副作用并减少对状态的改变
+// 函数式编程属于声明式编程范式：这种规范会描述一系列操作，但并不会暴露他们是如何实现的或是数据流如何传过它们。
+// 命令式方式
+var array = [0, 1, 2, 3]
+for(let i = 0; i < array.length; i++) {
+    array[i] = Math.pow(array[i], 2)
+}
+
+array; // [0, 1, 4, 9]
+// 声明式方式
+[0, 1, 2, 3].map(num => Math.pow(num, 2))
+// 10.hashchange  url的hash改变，页面不会重新加载，但仍然被记录到浏览器的历史记录中
+window.addEventListener('hashchange', (e) => {
+  console.log(e.oldURL)
+  console.log(e.newURL)
+})
+// 场景，浏览器小图查看大图，返回上一页，退出大图查看，不返回上个html,可以点击大图的时候给url+#hash
+// 假设大图展示状态的hash为imgSlider
+window.addEventListener('hashchange', function(e) {
+  var re = /#imgSlider$/;
+  if ( re.test(e.oldURL) && !re.test(e.newURL) ) {
+    // 假设imgSlider为大图展示组件对象
+    imgSlider.hide();
+  }
+}, false);
+
+// 这里简单做一个实现，原理是把目标路由和对应的回调记录下来，点击跳转触发 hashchange 的时候获取当前路径并执行对应回调
+class RouterClass () {
+  constructor () {
+    this.routes = {}; // 记录路径标识符对应的cb
+    this.currentUrl = ''; // 记录hash只为方便执行cb
+    window.addEventListener('load', () => {
+      this.render();
+    });
+    window.addEventListener('hashchange', () => {
+      this.render();
+    });
+  }
+  /**初始化 ***/
+  static init () {
+    window.Router = new RouterClass();
+  }
+  /**注册路由和回调 */
+  route(path, cb) {
+    this.routes[path] = cb || function () {}
+  }
+  /**记录当前hash,执行cb */
+  render () {
+    this.currentUrl = location.hash.slice(1) || '/'
+    this.routes[this.currentUrl]()
+  }
+}

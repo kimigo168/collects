@@ -124,3 +124,4 @@ function isPrimitive (value) {
     return hasOwnProperty.call(obj, key)
   }
   // p164
+  // P229

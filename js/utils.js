@@ -125,3 +125,70 @@ function isPrimitive (value) {
   }
   // p164
   // P229
+    /**
+   * Convert an Array-like object to a real Array.
+   */
+  function toArray (list, start) {
+    start = start || 0;
+    var i = list.length - start;
+    var ret = new Array(i);
+    while (i--) {
+      ret[i] = list[i + start];
+    }
+    return ret
+  }
+
+    /**
+   * Check if two values are loosely equal - that is,
+   * if they are plain objects, do they have the same shape?
+   */
+  function looseEqual (a, b) {
+    if (a === b) { return true }
+    var isObjectA = isObject(a);
+    var isObjectB = isObject(b);
+    if (isObjectA && isObjectB) {
+      try {
+        var isArrayA = Array.isArray(a);
+        var isArrayB = Array.isArray(b);
+        if (isArrayA && isArrayB) {
+          return a.length === b.length && a.every(function (e, i) {
+            return looseEqual(e, b[i])
+          })
+        } else if (a instanceof Date && b instanceof Date) {
+          return a.getTime() === b.getTime()
+        } else if (!isArrayA && !isArrayB) {
+          var keysA = Object.keys(a);
+          var keysB = Object.keys(b);
+          return keysA.length === keysB.length && keysA.every(function (key) {
+            return looseEqual(a[key], b[key])
+          })
+        } else {
+          /* istanbul ignore next */
+          return false
+        }
+      } catch (e) {
+        /* istanbul ignore next */
+        return false
+      }
+    } else if (!isObjectA && !isObjectB) {
+      return String(a) === String(b)
+    } else {
+      return false
+    }
+  }
+
+    // Browser environment sniffing
+    var inBrowser = typeof window !== 'undefined';
+    var inWeex = typeof WXEnvironment !== 'undefined' && !!WXEnvironment.platform;
+    var weexPlatform = inWeex && WXEnvironment.platform.toLowerCase();
+    var UA = inBrowser && window.navigator.userAgent.toLowerCase();
+    var isIE = UA && /msie|trident/.test(UA);
+    var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
+    var isEdge = UA && UA.indexOf('edge/') > 0;
+    var isAndroid = (UA && UA.indexOf('android') > 0) || (weexPlatform === 'android');
+    var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA)) || (weexPlatform === 'ios');
+    var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
+    var isPhantomJS = UA && /phantomjs/.test(UA);
+    var isFF = UA && UA.match(/firefox\/(\d+)/);
+
+// P1022

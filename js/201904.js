@@ -236,3 +236,10 @@ class RouterClass () {
     this.routes[this.currentUrl]()
   }
 }
+// 解决vue nodejs中cros跨域cookie和session失效的问题 http://bbs.itying.com/topic/5c45639b3da5ae17b03606b0
+// app
+if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.setDetailFont) {
+  window.webkit.messageHandlers.setDetailFont.postMessage("");
+} else if (GiisoObjectCNewsModel && GiisoObjectCNewsModel.setDetailFont) {
+  GiisoObjectCNewsModel.setDetailFont("");
+}

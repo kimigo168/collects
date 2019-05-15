@@ -243,3 +243,284 @@ if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandl
 } else if (GiisoObjectCNewsModel && GiisoObjectCNewsModel.setDetailFont) {
   GiisoObjectCNewsModel.setDetailFont("");
 }
+// 获取URL的查询参数
+// let q={};location.search.replace(/([^?&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v);console.log(q);
+// console.log(location.search.replace(/([^?&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v));
+// 创建本地时间
+<body onload="setInterval(()=>document.body.innerHTML=new Date().toLocaleString().slice(10,19))"></body>
+
+// 使用JavaScript简洁代码生成随机十六进制代码
+// '#' + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0');
+// 这是一个臭名昭著的面试题，让你写出他的运行结果，受不了~
+// for(i=0;++i<101;console.log(i%5?f||i:f+'Buzz'))f=i%3?'':'Fizz'
+// 用字符串返回一个键盘图形
+(_=>[..."`1234567890-=~~QWERTYUIOP[]\\~ASDFGHJKL;'~~ZXCVBNM,./~"].map(x=>(o+=`/${b='_'.repeat(w=x<y?2:' 667699'[x=["BS","TAB","CAPS","ENTER"][p++]||'SHIFT',p])}\\|`,m+=y+(x+'    ').slice(0,w)+y+y,n+=y+b+y+y,l+=' __'+b)[73]&&(k.push(l,m,n,o),l='',m=n=o=y),m=n=o=y='|',p=l=k=[])&&k.join`
+`)()
+// 前端自动化部署
+// shell脚步
+// #!/bin/sh
+
+// handle = $1;
+// env = $2;
+// # 远程部署机 webhook
+// # 如果用远程机器部署的话就要用到以下方法
+// # preHandle(){
+// #     git pull orgin master
+// #     npm config set registry http://registry.npm.taobao.org/
+// #     npm install
+// #     npm run build-prod
+// # }
+// # 清空dist目录
+// emptyRemoteDist(){
+//     if [ $env == "prod" ]
+//     then
+//         echo "[exec]remove remote:yourip folder"
+//         ssh root@yourip "rm -rf /www/jiketoutiao_admin/*"
+//     else
+//         echo "[exec]remove remote:yourip folder"
+//         ssh root@yourip "rm -rf /www/jiketoutiao_admin/*"
+//     fi
+// }
+// # 发送文件到正式服
+// transferFileToProSever(){
+//     echo "[exec]transfer file to product:yourip sever"
+//     scp -r ./dist/* root@yourip:/www/jiketoutiao_admin/
+// }
+// # 发送文件到测试服
+// transferFileToTestSever(){
+//     echo "[exec]transfer file to development::yourip sever"
+//     scp -r ./dist/* root@yourip:/www/jiketoutiao_admin/
+// }
+// if [ $handle == "build" ]
+// then
+//     if [ $env == "prod" ]
+//     then
+//         env='prod'
+//         echo "[exec]build ==> build production"
+//         npm run build-prod
+//         emptyRemoteDist
+//         transferFileToProSever
+//     else
+//         env='dev'
+//         echo "[exec]build ==> build development"
+//         npm run build
+//         emptyRemoteDist
+//         transferFileToTestSever
+//     fi
+// fi
+// 首先你得把部署机（可能是你本地机器）的ssh公钥（~/.ssh/id_rsa.pub）配置到对应服务器（~/.ssh/authorized_keys）
+
+// 命令走起就可以直接发布了
+
+// 例1：发布到测试服
+
+// ./deploy.sh build dev
+
+// 例2：发布到正式服
+
+// ./deploy.sh build prod
+
+// 这些后面的参数名称自己按照爱好改就行
+// 然后在这讲一下npm run build-prod的操作,先在package.json这样配置
+// "scripts": {
+//   "dev": "node build/dev-server.js development-server",
+//   "dev-prod": "node build/dev-server.js production-server",
+//   "build": "node build/build.js  development-server",
+//   "build-prod": "node build/build.js production-server"
+// },
+// https://www.cnblogs.com/AlexBlogs/p/7688252.html
+
+// 匹配多个模式
+// 使用操作符号 |
+const regex = /yes|no|maybe/;    
+// test 和 match 区别
+
+// 匹配任意字符
+// 使用通配符. 作为任何字符的占位
+// 使用字符类，你可以使用它来定义要匹配的一组字符
+
+// 把它们放在方括号里 []
+
+//匹配 "cat" "fat" and "mat" 但不匹配 "bat"
+const regexWithCharClass = /[cfm]at/g;
+const testString = "cat fat bat mat";
+const allMatchingWords = testString.match(regexWithCharClass); // ["cat", "fat",  "mat"]
+
+// 使用字符集内的范围 [a-z]
+
+const regexWidthCharRange = /[a-e]at/;
+
+const regexWithCharRange = /[a-e]at/;
+const catString = "cat";
+const batString = "bat";
+const fatString = "fat";
+
+regexWithCharRange.test(catString); // true
+// 匹配特定的数字和字母
+// 你还可以使用连字符来匹配数字
+
+const regexWithLetterAndNumberRange = /[a-z0-9]/ig;
+const testString = "Emma19382";
+testString.match(regexWithLetterAndNumberRange) // true
+// 匹配单个未知字符
+// 要匹配您不想拥有的一组字符，使用否定字符集 ^
+
+const allCharsNotVowels = /[^aeiou]/gi;
+const allCharsNotVowelsOrNumbers = /[^aeiou0-9]/gi;
+
+// 匹配一行中出现一次或多次的字符
+// 使用 + 标志
+
+const oneOrMoreAsRegex = /a+/gi;
+const oneOrMoreSsRegex = /s+/gi;
+const cityInFlorida = "Tallahassee";
+
+cityInFlorida.match(oneOrMoreAsRegex); // ['a', 'a', 'a'];
+cityInFlorida.match(oneOrMoreSsRegex); // ['ss'];   
+
+// 匹配连续出现零次或多次的字符
+// 使用星号 *
+
+const zeroOrMoreOsRegex = /hi*/gi;
+const normalHi = "hi";
+const happyHi = "hiiiiii";
+const twoHis = "hiihii";
+const bye = "bye";
+
+normalHi.match(zeroOrMoreOsRegex); // ["hi"]
+happyHi.match(zeroOrMoreOsRegex); // ["hiiiiii"]
+twoHis.match(zeroOrMoreOsRegex); // ["hii", "hii"]
+bye.match(zeroOrMoreOsRegex); // null
+
+// 惰性匹配
+// 字符串中与给定要求匹配的最小部分
+
+// 默认情况下，正则表达式是贪婪的（匹配满足给定要求的字符串的最长部分）
+
+// 使用 ? 阻止贪婪模式(惰性匹配 )
+
+  const testString = "catastrophe";
+    const greedyRexex = /c[a-z]*t/gi;
+    const lazyRegex = /c[a-z]*?t/gi;
+    
+    testString.match(greedyRexex); // ["catast"]
+    testString.match(lazyRegex); // ["cat"] 
+
+//     匹配起始字符串模式
+// 要测试字符串开头的字符匹配，请使用插入符号^，但要放大开头，不要放到字符集中
+
+const emmaAtFrontOfString = "Emma likes cats a lot.";
+const emmaNotAtFrontOfString = "The cats Emma likes are fluffy.";
+const startingStringRegex = /^Emma/;
+
+startingStringRegex.test(emmaAtFrontOfString); // true
+startingStringRegex.test(emmaNotAtFrontOfString); // false
+
+// 匹配结束字符串模式
+// 使用 $ 来判断字符串是否是以规定的字符结尾
+
+const emmaAtBackOfString = "The cats do not like Emma";
+const emmaNotAtBackOfString = "Emma loves the cats";
+const startingStringRegex = /Emma$/;
+
+startingStringRegex.test(emmaAtBackOfString); // true
+startingStringRegex.test(emmaNotAtBackOfString); // false 
+
+// 匹配所有字母和数字
+// 使用\word 简写
+
+const longHand = /[A-Za-z0-9_]+/;
+const shortHand = /\w+/;
+const numbers = "42";
+const myFavoriteColor = "magenta";
+
+longHand.test(numbers); // true
+shortHand.test(numbers); // true
+longHand.test(myFavoriteColor); // true
+shortHand.test(myFavoriteColor); // true
+
+
+// 除了字母和数字，其他的都要匹配
+// 用\W 表示 \w 的反义
+
+const noAlphaNumericCharRegex = /\W/gi;
+const weirdCharacters = "!_$!!";
+const alphaNumericCharacters = "ab283AD";
+
+noAlphaNumericCharRegex.test(weirdCharacters); // true
+noAlphaNumericCharRegex.test(alphaNumericCharacters); // false
+
+// 匹配所有数字
+// 你可以使用字符集[0-9]，或者使用简写 \d
+
+const digitsRegex = /\d/g;
+const stringWithDigits = "My cat eats $20.00 worth of food a week.";
+
+stringWithDigits.match(digitsRegex); // ["2", "0", "0", "0"]
+
+// 匹配所有非数字
+// 用\D 表示 \d 的反义
+const nonDigitsRegex = /\D/g;
+const stringWithLetters = "101 degrees";
+
+stringWithLetters.match(nonDigitsRegex); // [" ", "d", "e", "g", "r", "e", "e", "s"]
+// 匹配空格
+// 使用 \s 来匹配空格和回车符
+
+const sentenceWithWhitespace = "I like cats!"
+var spaceRegex = /\s/g;
+whiteSpace.match(sentenceWithWhitespace); // [" ", " "]
+
+
+// 匹配非空格
+// 用\S 表示 \s 的反义
+
+const sentenceWithWhitespace = "C a t"
+const nonWhiteSpaceRegex = /\S/g;
+sentenceWithWhitespace.match(nonWhiteSpaceRegex); // ["C", "a", "t"]
+
+// 匹配的字符数
+// 你可以使用 {下界，上界} 指定一行中的特定字符数
+
+const regularHi = "hi";
+const mediocreHi = "hiii";
+const superExcitedHey = "heeeeyyyyy!!!";
+const excitedRegex = /hi{1,4}/;
+
+excitedRegex.test(regularHi); // true
+excitedRegex.test(mediocreHi); // true
+excitedRegex.test(superExcitedHey); //false
+// 匹配最低个数的字符数
+// 使用{下界, }定义最少数量的字符要求,下面示例表示字母 i 至少要出现2次
+
+const regularHi = "hi";
+const mediocreHi = "hiii";
+const superExcitedHey = "heeeeyyyyy!!!";
+const excitedRegex = /hi{2,}/;
+
+excitedRegex.test(regularHi); // false
+excitedRegex.test(mediocreHi); // true
+excitedRegex.test(superExcitedHey); //false
+
+
+// 匹配精确的字符数
+// 使用{requiredCount}指定字符要求的确切数量
+
+const regularHi = "hi";
+const bestHi = "hii";
+const mediocreHi = "hiii";
+const excitedRegex = /hi{2}/;
+
+excitedRegex.test(regularHi); // false
+excitedRegex.test(bestHi); // true
+excitedRegex.test(mediocreHi); //false    
+// 匹配0次或1次
+// 使用 ? 匹配字符 0 次或1次
+
+const britishSpelling = "colour";
+const americanSpelling = "Color";
+const languageRegex = /colou?r/i;
+
+languageRegex.test(britishSpelling); // true
+languageRegex.test(americanSpelling); // true
+

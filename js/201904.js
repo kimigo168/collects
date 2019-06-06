@@ -524,3 +524,35 @@ const languageRegex = /colou?r/i;
 languageRegex.test(britishSpelling); // true
 languageRegex.test(americanSpelling); // true
 
+// 使用 position:fixed 这个属性。其实如果其父元素中有使用 transform， fixed 的效果会降级为 absolute
+// 即当使用 fixed 的直接父元素的高度和屏幕的高度相同时 fixed 和 absolute 的表现效果会是一样的。
+
+// 比如需要我们画一个 r 为 5px 的圆，如果我们使用 rem 作为单位，我们很快会发现在一些机型上的图案不圆，会呈现椭圆形。这是由于 rem 转 px 会存在精度丢失问题。这个时候我们就需要使用 px 配合 dpr 来实现
+
+// 1px 方案
+// .border_bottom { 
+//   overflow: hidden; 
+//   position: relative; 
+//   border: none!important; 
+// }
+// .border_bottom:after { 
+//   content: ".";
+//   position: absolute; 
+//   left: 0; 
+//   bottom: 0; 
+//   width: 100%; 
+//   height: 1px; 
+//   background-color: #d4d6d7; 
+//   -webkit-transform-origin: 0 0;  
+//   transform-origin: 0 0; 
+//   -webkit-transform: scaleY(0.5);
+//   transform: scaleY(0.5);
+// }
+
+// html {
+//   box-sizing: border-box;
+// }
+
+// *, *:before, *:after {
+//   box-sizing: inherit;
+// }

@@ -33,3 +33,36 @@ export default routes = [
 // 只要是因为 Vue 提取了数组的可以改变原数组的原生方法，进行了再加工。只有经过 Vue 处理过的方法才有更新视图的能力。
 
 // vue 中this.$router.go(-1)，想带参数，返回上一页的tab,vuex,activated()钩子，eventBus
+
+// input file change只触发一下问题，document.getElementById().value = '';//清空
+
+// 如何理解BFC?
+// 定义：块格式化上下文(Block Formatting Context, BFC)是web界面可视化css渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其它元素交互的区域
+// 特性：
+// 同一个BFC下外边距会发生重叠。这不是 CSS 的 bug，我们可以理解为一种规范，如果想要避免外边距的重叠，可以将其放在不同的 BFC 容器中
+// BFC可以包含浮动元素（清除浮动）
+// BFC可以阻止元素被浮动元素覆盖
+
+// 这里有一个经典的css布局试题(两列自适应布局)就是应用的BFC特性
+
+//   <div style="float:left; width:200px; background:blue">left</div>
+//   <div style="height:100%; background: red">right</div>
+
+
+// 触发BFC
+// 下列方式会触发BFC(摘抄自MDN)
+
+// 根元素或包含根元素的元素
+// 浮动元素（元素的 float 不是 none）
+// 绝对定位元素（元素的 position 为 absolute 或 fixed）
+// 行内块元素（元素的 display 为 inline-block）
+// 表格单元格（元素的 display为 table-cell，HTML表格单元格默认为该值）
+// 表格标题（元素的 display 为 table-caption，HTML表格标题默认为该值）
+// 匿名表格单元格元素（元素的 display为 table、table-row、 table-row-group、table-header-group、table-footer-group（分别是HTML table、row、tbody、thead、tfoot的默认属性）或 inline-table）
+// overflow 值不为 visible 的块元素
+// display 值为 flow-root 的元素
+// contain 值为 layout、content或 strict 的元素
+// 弹性元素（display为 flex 或 inline-flex元素的直接子元素）
+// 网格元素（display为 grid 或 inline-grid 元素的直接子元素）
+// 多列容器（元素的 column-count 或 column-width 不为 auto，包括 column-count 为 1）
+// column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没有包裹在一个多列容器中

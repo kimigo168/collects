@@ -66,3 +66,58 @@ export default routes = [
 // 网格元素（display为 grid 或 inline-grid 元素的直接子元素）
 // 多列容器（元素的 column-count 或 column-width 不为 auto，包括 column-count 为 1）
 // column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没有包裹在一个多列容器中
+
+// vue 路由懒加载:
+// 在一开始就下载完所有路由对应的组件文件，这明显是不合适的.把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。
+// router.js 原来的静态引用
+import showBlog from '@/components/showBlogs'
+// routes: [path: 'Blogs', name: 'showBlogs', component: showBlog]
+
+// 改为：以函数的形式动态引入，这样就可以把各自的路由文件分别打包，只有在解析给定的路由时，才会下载路由组件
+// routes: [path: 'Blogs', name: 'showBlogs', component: () => import ('./components/showBlog.vue')]
+
+// vuecli3默认开启prefetch(预先加载模块),提前获取用户未来可能会访问的内容
+// vue.config.js
+module.exports = {
+  chainWebpack: config => {
+    // 移除prefetch 插件
+    config.plugins.delete('prefetch')
+
+    // 或者
+    // 修改它的选项：
+    config.plugin('prefetch').tap(options => {
+      options[0].fileBlackList = options[0].fileBlackList || [];
+      options[0].fileBlackList.push(/myasyncRoute(.)+?\.js$/)
+      return options
+    })
+  }
+}
+// 当prefetch插件被禁用，通过webpack内联注释手动选定要提前获取的代码区块
+import(/* webpackPrefetch:true */ './someAsyncComponent.vue')
+
+// element-ui 按需加载,引用
+// 拆完包后gzip压缩
+// cnpm i compression-webpack-plugin -d
+const CompressionPlugin = require('compression-webpack-plugin')
+configureWebpack: (config) => {
+  if (process.env.NODE_ENV === 'production') {
+    // 为生产环境修改配置...
+    config.mode = 'production'
+    return {
+      plugins: [new CompressionPlugin({
+        test: /\.js$|\.html$|\.css/,
+        threshold: 10240, // 对超过10k的数据进行压缩
+        deleteOriginalAssets: false // 是否删除原文件
+      })]
+    }
+  }
+}
+
+// 在服务器我们也要做相应的配置
+// 如果发送请求的浏览器支持 gzip，就发送给它 gzip格式的文件
+// 我的服务器是用 express框架搭建的
+// 只要安装一下 compression就能使用
+const compression = require('compression')
+app.use(compression)
+
+// css是否要拆分，关闭

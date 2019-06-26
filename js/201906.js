@@ -121,3 +121,76 @@ const compression = require('compression')
 app.use(compression)
 
 // css是否要拆分，关闭
+// ORM 通过实例对象语法。“对象-关系映射（object/Relational Mappling）”
+// 数据库的表(table) => 类（class）
+// 记录(record,行数据) => 对象（object)
+// 字段(field) => 对象的属性（attribute)
+// ORM使用对象，封装了数据操作，可以不碰SQL语音，开发者只使用面向对象编程，与数据对象直接交互，不用关心底层数据库
+
+// css技巧
+// (1)外边距折叠，两个margin中保留较大的那一个
+// (2)使用flex布局
+// (3) 将图片作为背景，在图片是响应式的时候，
+// background引入图片的一个缺点是页面的Web可访问性会受到轻微的影响，因为屏幕阅读器和搜索引擎无法正确地获取到图像，这个问题可以通过CSS object-fit属性解决
+// (4)不要重复设置 font会从父级继承
+// (5)使用transform属性来创建动画
+// (6)text-transform转换字母为大写,适合英文环境 text-transform: uppercase;
+// (7)对于大型项目使用预处理器,压缩CSS文件
+
+// JWT(JSON WEB TOKEN)
+// 跨域认证问题
+// 一般流程,账号密码登录，服务器验证通过后，在session里面保存数据，服务器向用户返回一个session_id,写入用户cookie
+// 用户每次请求，通过cookie将session_id传回服务器
+// 服务器收到session_id,找到前期保存数据,得知用户身份
+
+// 单机ok,如果是服务器集群，要求session共享,每台服务器都能读取session
+// 举例来说，A 网站和 B 网站是同一家公司的关联服务。现在要求，用户只要在其中一个网站登录，再访问另一个网站就会自动登录，请问怎么实现？
+
+// 一种解决方案是 session 数据持久化，写入数据库或别的持久层。各种服务收到请求后，都向持久层请求数据。这种方案的优点是架构清晰，缺点是工程量比较大。另外，持久层万一挂了，就会单点失败。
+
+// 另一种方案是服务器索性不保存 session 数据了，所有数据都保存在客户端，每次请求都发回服务器。JWT 就是这种方案的一个代表。
+
+// JWT原理：JWT 的原理是，服务器认证以后，生成一个 JSON 对象，发回给用户，以后，用户与服务端通信的时候，都要发回这个 JSON 对象。为了防止用户篡改数据，服务器在生成这个对象的时候，会加上签名。服务器就不保存任何 session 数据了，也就是说，服务器变成无状态了，从而比较容易实现扩展。
+// JWT三部分：Header(头部), Playload(负载), Signature(签名)  => Header.Payload.Signature
+// (1) Header是一个json对象
+// {
+//   "alg": "HS256", // 签名算法
+//   "typ": "JWT" // 令牌类型
+// }
+// 最后，将上面的 JSON 对象使用 Base64URL 算法（详见后文）转成字符串。
+// (2)Payload 部分也是一个 JSON 对象，用来存放实际需要传递的数据。JWT 规定了7个官方字段，供选用。
+// iss (issuer)：签发人
+// exp (expiration time)：过期时间
+// sub (subject)：主题
+// aud (audience)：受众
+// nbf (Not Before)：生效时间
+// iat (Issued At)：签发时间
+// jti (JWT ID)：编号
+// 这个 JSON 对象也要使用 Base64URL 算法转成字符串。
+// (3)Signature 部分是对前两部分的签名，防止数据篡改。
+// 首先，需要指定一个密钥（secret）。这个密钥只有服务器才知道，不能泄露给用户。然后，使用 Header 里面指定的签名算法（默认是 HMAC SHA256），按照下面的公式产生签名。
+// HMACSHA256(
+//   base64UrlEncode(header) + "." +
+//   base64UrlEncode(payload),
+//   secret)
+// Base64URL
+// 这个算法跟 Base64 算法基本类似，但有一些小的不同。
+// JWT 作为一个令牌（token），有些场合可能会放到 URL（比如 api.example.com/?token=xxx）。Base64 有三个字符+、/和=，在 URL 里面有特殊含义，所以要被替换掉：=被省略、+替换成-，/替换成_ 。这就是 Base64URL 算法。
+
+// JWT使用方式：
+// 客户端收到服务器返回的 JWT，可以储存在 Cookie 里面，也可以储存在 localStorage。
+
+// 此后，客户端每次与服务器通信，都要带上这个 JWT。你可以把它放在 Cookie 里面自动发送，但是这样不能跨域，所以更好的做法是放在 HTTP 请求的头信息Authorization字段里面。Authorization: Bearer <token>
+// 另一种做法是，跨域的时候，JWT 就放在 POST 请求的数据体里面。
+// JWT 的几个特点
+// （1）JWT 默认是不加密，但也是可以加密的。生成原始 Token 以后，可以用密钥再加密一次。
+
+// （2）JWT 不加密的情况下，不能将秘密数据写入 JWT。
+
+// （3）JWT 不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数。
+
+// （4）JWT 的最大缺点是，由于服务器不保存 session 状态，因此无法在使用过程中废止某个 token，或者更改 token 的权限。也就是说，一旦 JWT 签发了，在到期之前就会始终有效，除非服务器部署额外的逻辑。
+
+// （5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。
+
+// （6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。

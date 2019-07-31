@@ -75,3 +75,57 @@ for (let [,value] of map) {
 const { sourceMapConsumer, SourceNode } = require('source-map')
 
 // P36
+// P44 编译模板，正则
+// p62 数组新方法
+// (1) Array.from() 将两类对象转为真正的数组，类似数组对象和可遍历对象（Set,Map）
+let arrayLike = { '0': 'a', '1': 'b', '2': 'c'}
+let arr1 = [].slice.call(arrayLike) // ['a','b','c']
+let arr2 = Array.from(arrayLike)
+
+// 场景：将DOM操作返回的NodeList，及函数内部的arguments对象
+Array.from('hello') // ['h','e','l','l','o']
+
+let nameSet = new Set(['a', 'b', 'c'])
+Array.from(nameSet) // ['a','b','c']
+
+// 扩展运算符也可以将某些数据转换成数组
+function foo () {
+  var args = [...arguments]
+}
+// NodeList 对象
+[...document.querySelectorAll('div')]
+
+// 将一组值转换为数组
+Array.of(3, 8, 11) // [3, 8, 11]
+// 模拟
+function ArrayOf () {
+  return [].slice.call(arguments)
+}
+// 数组find() 返回第一个符合条件的成员，没有则返回undefined
+// 数组findIndex() 返回第一个符合条件成员位置，没有则返回-1
+let arr = [{isSelect: false}, {isSelect: true}, {isSelect: false}];
+let obj = arr.find((item, index) => {
+  return item.isSelect
+})
+
+// 数组实例的fill()
+['1', '2', '3'].fill(7)
+new Array(3).fill(7) // [3, 3, 3]
+
+// arr.keys(), arr.values(), arr.entires()
+for (let index of arr.keys()) {
+  console.log(index)
+}
+// includes() 返回true or false
+
+// 函数默认参数
+function Point (x = 0, y = 0) {
+  this.x = x;
+  this.y = y;
+}
+var p = new Point(); // p { x: 0, y: 0 }
+
+// 扩展运算符
+var arr1 = [1, 2, 3]
+var arr2 = [4, 5, 6]
+arr1.push(...arr2)

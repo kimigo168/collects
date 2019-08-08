@@ -129,3 +129,4 @@ var p = new Point(); // p { x: 0, y: 0 }
 var arr1 = [1, 2, 3]
 var arr2 = [4, 5, 6]
 arr1.push(...arr2)
+// P79 

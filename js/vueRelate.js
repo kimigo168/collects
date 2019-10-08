@@ -185,3 +185,156 @@ this.$watch('a', callback, {
 
 // v-slot v2.6.0 替换废弃的 slot、slot-scope 
 //<component :is=""></componet> 动态组件
+
+// vue scope 样式穿透
+// 通过该属性，可以使得组件之间的样式不互相污染。
+// 转义后data-v-234
+// (1)外层穿透  .wrapper >>> .swiper-pagination-bullet-active
+// (2) <style scoped></style> + <style>.wrapper {.swiper-pagination-bullet-active}</style>
+
+
+// Vue如何强制刷新组件
+// this.$forceUpdate(),或//模版上绑定key，改变key值
+
+// 对vue的错误处理的了解？
+// vue给组件绑定自定义事件无效怎么解决？组件外部加修饰符.native,组件内部声明$emit('自定义事件')
+// vue的属性名称与method的方法名称一样时会发生什么问题？
+// 报错 "Method 'xxx' has already been defined as a data property"
+
+// 键名优先级：props > data > methods
+
+// vue变量名如果以_、$开头的属性会发生什么问题？怎么访问到它们的值？
+// 以 _ 或 $ 开头**的属性不会被 Vue 实例代理，因为可能和 Vue 内置的属性、API 方法冲突。可以使用例如 **vm.$data._property
+
+// vue使用v-for遍历对象(这里是对象，不是数组)时，是按什么顺序遍历的？如何保证顺序？
+// 1、会先判断是否有iterator接口，如果有循环执行next()方法
+// 2、没有iterator的情况下，会调用Object.keys()方法，在不同浏览器中，JS引擎不能保证输出顺序一致
+// 3、保证对象的输出顺序可以把对象放在数组中，作为数组的元素
+
+// vue如果想扩展某个现有的组件时，怎么做呢？
+// 不对原组件进行更改的：
+
+// 使用Vue.extend直接扩展
+// 使用Vue.mixin全局混入
+// HOC封装，可以加slot扩展
+
+ // 说下$attrs和$listeners的使用场景 ?
+//  组件传值的时候会用到 爷爷在父亲组件传递值，父亲组件会通过$attrs获取到不在父亲props里面的所有属性，父亲组件通过在孙子组件上绑定$attrs 和 $listeners 使孙组件获取爷爷传递的值并且可以调用在爷爷那里定义的方法
+
+// v-once的使用场景有哪些？
+// 表单提交。可防止用户在请求未及时响应时，多次提交~
+
+// EventBus注册在全局上时，路由切换时会重复触发事件，如何解决呢？ 
+// 在组件内的beforeRouteLeave中移除事件监听
+
+// 怎么访问到子组件的实例或者子元素？
+// this.$children/this.$refs.xxx
+// 在子组件中怎么访问到父组件的实例？this.$parent
+// 在组件中怎么访问到根实例？ 
+
+// 跳转新页面
+// const { href } = this.$router.resolve({ path: '/question' })
+//       if (this.$route.name === 'userCenter') {
+//         window.open(href, '_blank')
+//       }
+
+// vue组件里写的原生addEventListeners监听事件，要手动去销毁吗？
+// 肯定要，一方面是绑定多次，另一方面是函数没释放会内存溢出
+
+// vue组件里的定时器要怎么销毁？
+const timer = setInterval(() =>{
+  // 某些定时器操作
+  }, 500);
+  // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
+  this.$once('hook:beforeDestroy', () => {
+  clearInterval(timer);
+})
+
+// 使用vue渲染大量数据时应该怎么优化？
+// Object.freeze(对于前端纯大数据展示，不需要做修改其中字段等处理的，使用Object.freeze方法来包裹变量，vue内部不再去监听数据的变化提高性能)
+// 1.如果需要响应式，考虑使用虚表（只渲染要显示的数据）；
+// 2.如果不考虑响应式，变量在beforeCreated或created中声明（Object.freeze会导致列表无法增加数据）
+
+// vue的is这个特性你有用过吗？
+// 你了解什么是函数式组件吗？需要提供一个render方法， 接受一个参数（createElement函数）， 方法内根据业务逻辑，通过createElement创建vnodes，最后return vnodes
+
+// 组件中写name选项有什么作用?
+// 项目使用keep-alive时，可搭配组件name进行缓存过滤
+// DOM做递归组件时需要调用自身name
+// vue-devtools调试工具里显示的组见名称是由vue中组件name决定的
+
+// 说说你对provide和inject的理解?
+// 通过在父组件中inject一些数据然后再所有子组件中都可以通过provide获取使用该参数,
+
+// 主要是为了解决一些循环组件比如tree, menu, list等, 传参困难, 并且难以管理的问题, 主要用于组件封装, 常见于一些ui组件库
+
+// 怎么缓存当前打开的路由组件，缓存后想更新当前组件怎么办呢？
+// 可以在路由meta中加入参数, 对打开的路由进行keep-alive的判断, 通过钩子active等
+
+// 说说你对vue组件的设计原则的理解 ?
+// 第一: 容错处理, 这个要做好, 极端场景要考虑到, 不能我传错了一个参数你就原地爆炸
+// 第二: 缺省值(默认值)要有, 一般把应用较多的设为缺省值
+// 第三: 颗粒化, 把组件拆分出来.
+// 第四: 一切皆可配置, 如有必要, 组件里面使用中文标点符号, 还是英文的标点符号, 都要考虑到
+// 第五: 场景化, 如一个dialog弹出, 还需要根据不同的状态封装成success, waring, 等
+// 第六: 有详细的文档/注释和变更历史, 能查到来龙去脉, 新版本加了什么功能是因为什么
+// 第七: 组件名称, 参数prop, emit, 名称设计要通俗易懂, 最好能做到代码即注释这种程度
+// 第八: 可拓展性, 前期可能不需要这个功能, 但是后期可能会用上, 要预留什么, 要注意什么, 心里要有逼数
+// 第九: 规范化,我这个input组件, 叫on-change, 我另外一个select组件叫change, 信不信老子捶死你
+// 第十: 分阶段: 不是什么都要一期开发完成看具体业务, 如果一个select, 我只是个简单的select功能, 什么multi老子这个版本压根不需要, 别TM瞎折腾! 给自己加戏
+
+// 你了解vue的diff算法吗？
+// vue如何优化首页的加载速度？
+// 异步路由和异步加载
+// 还有分屏加载, 按需加载, 延时加载图片等, cdn, 域名才分
+
+// 不要什么东西动不动就打包到vendor中, 恶心
+
+// Vue中异步路由，异步组件，懒加载：
+// 异步方法：(1)依赖require
+const Editor = resolve => require(['@/views/Editor'], resolve)
+// (2) webpack2 + es6
+const Editor = () => import('@/views/Editor')
+
+// 全局异步组件：
+// 可以同时require组件的css，只需要最后resolve传参的是组件
+// Vue.component('swiper', (resolve) => require(['vue-awesome-swiper', 'swiper/dist/css/swiper.css'], ({swiper}) => resolve(swiper)))
+// 单个组件内的异步组件：
+// export default {
+//   name: 'editor',
+//   components: {
+//     appBox: resolve => require(['@/components/layout'], resolve)
+//   },
+//   ...
+// }
+
+// 4、懒加载第三方类库
+// 项目中会用到一些第三方类库，如果类库比较大，而且可以不用第一时间处理，则可以考虑把它懒加载，来加速页面的响应速度
+require(['lrz'], (lrz) => {
+  lrz(fileInfo, {fieldName: 'imgTp', width: 960, quality: 0.6})
+    .then((rst) => {
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+})
+// 路由懒加载异步组件配置：
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router)
+
+function loadView (view) {
+  return () => import('/webpackChunkName: "view-[request]" *')
+}
+// 缓存后想更新当前组件
+// ajax,fetch,axios三者有什么区别
+
+// vue监听数组变化的方法有哪些？vue重写了数组变化的方法
+// 你知道nextTick的原理吗？
+// 说说你对proxy的理解?
+// vue的数据劫持有两个缺点:
+// 1、无法监听通过索引修改数组的值的变化
+// 2、无法监听object也就是对象的值的变化
+// 所以vue2.x中才会有$set属性的存在
+
+// proxy是es6中推出的新api，可以弥补以上两个缺点，所以vue3.x版本用proxy替换object.defineproperty

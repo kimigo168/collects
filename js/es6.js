@@ -222,3 +222,79 @@ obj.time = 35
 // 各种拦截方法
 // P131
 // 二进制数组,arrayBuffer
+// 浏览器API 用到了二进制数组操作二进制数据:
+// File API,XML,Fetch API, Canvas, Websockets
+var fileInput = document.getElementById('fileInput')
+var file = fileInput.files[0]
+var reader = new FileReader()
+reader.readAsArrayBuffer(file)
+reader.onload = () => {
+  var arrayBuffer = reader.result
+}
+// P145  Set 和 Map
+// set用于数组去重
+var set = new Set([1, 3, 2, 4, 4])
+// [...set] // [1,3,2,4]
+// Set的四个操作方法： add(), delete(), has(), clear()
+ // 遍历方法： keys(), values(), entires()
+
+ // Map结构的目的和基本用法，Object对象，本质上是键值对的集合，但传统只能用字符串当键
+ // Object提供了 “字符串--值”的结构，Map提供了 “值--值”
+ var m = new Map()
+ var o = {p: 'Hello World'}
+ m.set(o, 'content')
+ m.get(o) // 'content'
+ m.has(o) // true
+ m.delete(o) // true
+ m.has(o) // false
+
+ // P158  Iterator 和 for of循环
+  // Iterator作用：为各种数据结构，提供统一的，简便的访问接口；使数据结构的成员，能够按某种次序排序；ES6创造的新的，for of
+// 凡是部署了Symbol.iterator属性的数据结构，就称部署了遍历接口 
+// 默认的Iterator接口部署在数据结构的Symbol.iterator属性，或者说，一个数据结构只要具有Symbol.iterator属性，就可以认为是“可遍历
+// 的”（iterable）。
+
+// yield* 后面跟的是一个可遍历结构，它会调用该结构的遍历器接口
+let generator = function* () {
+  yield 1;
+  yield* [2, 3, 4];
+  yield 5;
+}
+var iterator = generator();
+iterator.next() // { value: 1, done: false }
+iterator.next() // { value: 2, done: false }
+iterator.next() // { value: 3, done: false }
+iterator.next() // { value: 4, done: false }
+iterator.next() // { value: 5, done: false }
+iterator.next() // { value: undefined, done: true }
+
+// generator函数  P170,ES6提供的一种异步编程解决方案？？
+// 与普通函数不同地方：generator函数是分段执行的，yield是暂停执行的标记，next()方法可以恢复执行
+
+ // Promise P191 归纳总结
+ let promise = new Promise(function(resolve, reject) {
+   console.log('Promise')
+   resolve()
+ })
+ promise.then(function () {
+   console.log('Resolved.')
+ })
+ console.log('Hi')
+ // 执行顺序
+ // Promise
+ // Hi
+ // Resolved
+ // 异步加载图片的例子：
+ function loadImageAsync (url) {
+   return new Promise(function (resolve, reject) {
+     var image = new Image()
+     image.onload = function () {
+       resolve(image)
+     }
+     image.onerror = function () {
+       reject(new Error('Could not load image at '+ url))
+     }
+     image.src = url
+   })
+ }
+ // 193

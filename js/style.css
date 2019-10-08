@@ -1,0 +1,43 @@
+/* query,从下往上 */
+.query {
+  position: absolute;
+  left: 175px;
+  animation: query-up 6s 0s infinite ease-in both;
+}
+.response {
+  position: absolute;
+  left: 135px;
+  animation: response-down 6s 2.3s infinite ease-in both;
+}
+@keyframes query-up {
+  0% {
+    opacity: 0;
+    top: 230px;
+  }
+  5%, 25% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  50%, 100% {
+    top: 150px;
+    opacity: 0;
+  }
+}
+@keyframes response-down {
+  0% {
+    opacity: 0;
+    top: 130px;
+  }
+  10% {
+    opacity: 0;
+  }
+  25%, 45% {
+    opacity: 1;
+  }
+  50%, 100% {
+    top: 200px;
+    opacity: 0;
+  }
+}

@@ -211,5 +211,97 @@ function cloneVNode (node) {
 
 /****** 第五章 template 模板是怎样通过 Compile 编译的Compile ***** */
 
+/****** 第六章 数据状态更新时的差异diff及patch(补丁)机制 ******/
+// 数据更新视图
 
+// 对model进行操作时,会触发对应Dep中的watcher对象,watcher对象会调用相应的update来修改视图
+// 最终将更新产生的VNode节点和老的VNode进行一个patch过程,对比得到差异,最终将这些差异更新到视图
+const nodeOps = {
+  setTextContent(text) {
+    if (platfrom === 'weex') {
+      node.parentNode.setAttr('value', text);
+    } else if (platfrom === 'web') {
+      node.textContent = text;
+    }
+  },
+  parentNode(){},
+  removeChild(){},
+  nextSibling(){},
+  insertBefore(){}
+}
+/**
+ * insert 用来在 parent 这个父节点下插入一个子节点
+ */
+function insert (parent, elm, ref) {
+  if (parent) {
+    if (ref) { // 指定了ref,则插入到ref这个子节点前面
+      if (ref.parentNode === parent) {
+        nodeOps.insertBefore(parent, elm, ref)
+      }
+    } else {
+      nodeOps.appendChild(parent, elm)
+    }
+  }
+}
+/**
+ * createElm用来新建一个节点
+ */
+function createElm (vnode, parentElm, refElm) {
+  if (vnode.tag) { // tag 存在创建一个标签节点
+    insert(parentElm, nodeOps.createElement(vnode.tag), refElm);
+  } else { // 创建一个文本节点
+    insert(parentElm, nodeOps.createTextNode(vnode.text), refElm);
+  }
+}
+/**
+ * addVnodes 来批量调用createElm新建节点
+ */
+function addVnodes (parentElm, refElm, vnodes, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+      createElm(vnodes[startIdx], parentElm, refElm);
+  }
+}
+/**
+ * removeNode 移除一个节点
+ */
+function removeNode (el) {
+  const parent = nodeOps.parentNode(el);
+  if (parent) {
+    nodeOps.removeChild(parent, el);
+  }
+}
+/**
+ * removeVnodes 会批量调用removeNode移除节点
+ */
+function removeVnodes(parentElm, vnodes, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    const ch = vnodes[startIdx];
+    if (ch) {
+      removeNode(ch.elm);
+    }
+  }
+}
 
+// patch(打补丁)
+
+// patch的核心diff算法,我们用diff算法对比出两棵树的差异
+// diff算法是通过同层的树节点进行比较而非对树进行逐层搜索遍历的方式,所以时间复杂度只有
+// O(n),是一种相当高效的算法
+
+function patch (oldVnode, vnode, parentElm) {
+  if (!oldVnode) {
+    addVnodes(parentElm, null, vnode, 0, vnode.length - 1);
+  } else if (!vnode) {
+    removeVnodes(parentElm, oldVnode, 0, oldVnode.length - 1)
+  } else {
+    if (sameVnode(oldVNode, vnode)) {
+      patchVnode(oldVNode, vnode);
+    } else {
+      removeVnodes(parentElm, oldVnode, 0, oldVnode.length - 1);
+      addVnodes(parentElm, null, vnode, 0, vnode.length - 1);
+    }
+  }
+}
+
+/**** 第七章 批量异步更新策略及nextTick原理 *****/
+// 修改data中数据后,setter -> Dep -> Watcher -> patch ->视图

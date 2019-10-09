@@ -63,3 +63,47 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 }))
 
 let emptyObject = Object.freeze({}) // 冻结一个对象，不能修改和添加属性
+function isUndef (v) { // 判断不为空
+  return v === undefined || v === null
+}
+
+function isDef (v) { // 判断不为空
+  return v !== undefined && v !== null
+}
+//(2)判断是否对象 
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+//(3)判断是否promise
+function isPromise (val) {
+  return (
+    isDef(val) && typeof val.then === 'function' && typeof val.catch === 'function'
+  )
+}
+
+//(4) 转成数字
+function toNumber (val) {
+  var n = parseFloat(val)
+  return isNaN(n) ? val : n
+}
+
+/**
+   * Remove an item from an array.
+   */
+  function remove (arr, item) {
+    if (arr.length) {
+      var index = arr.indexOf(item);
+      if (index > -1) {
+        return arr.splice(index, 1)
+      }
+    }
+  }
+
+  /**
+   * Check whether an object has the property.
+   */
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  function hasOwn (obj, key) {
+    return hasOwnProperty.call(obj, key)
+  }
+  p170

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  function observe (value, cb) {
+    Object.keys(value).forEach((key) => defineReactive(value, key, value[key], cb))
+  }  
+  function defineReactive (obj, key, val, cb) {
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => {
+        console.log('get')
+        return val
+      },
+      set: newVal => {
+        console.log('set')
+        val = newVal
+        cb()
+      }
+    })
+  }
+
+  class Vue {
+    constructor (options) {
+      this._data = options.data
+      observe(this._data, options.render)
+    }
+  }
+
+  let app = new Vue({
+    el: '#app',
+    data: {
+      text: 'text',
+      text2: 'text2'
+    },
+    render () {
+      console.log('render')
+    }
+  })
+  </script>
+</body>
+</html>

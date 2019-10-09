@@ -64,3 +64,5 @@ for(let index in this.houseList) { // 给房间数据附上费用类别选项
 // substring()只接受非负数
 // slice,substr()
 // new Date(2016, 7, 0).getDate();
+
+// eslint-plugin-html 必须安装到依赖中，如果没有语法高亮检查，eslint显示为！号

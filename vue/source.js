@@ -73,4 +73,4 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 // 应用：高阶函数，函数柯里化，js闭包，
 
 // P620 看不懂
-
+// formatComponentName?

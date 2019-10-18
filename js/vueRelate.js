@@ -338,3 +338,18 @@ function loadView (view) {
 // 所以vue2.x中才会有$set属性的存在
 
 // proxy是es6中推出的新api，可以弥补以上两个缺点，所以vue3.x版本用proxy替换object.defineproperty
+
+// 自定义组件的v-model
+// vue父子组件双向绑定的方法有哪些？
+// (1) v-model, 父子组件通讯，使用.sync
+
+// 如何解决vue打包vendor过大的问题？
+// (1)在webpack.base.conf.js新增externals配置，表示不需要打包的文件，然后在index.html中通过CDN引入
+// externals: {
+//   "vue": "Vue",
+//   "vue-router": "VueRouter",
+//   "vuex": "Vuex",
+//   "element-ui": "ELEMENT",
+//   "BMap": "BMap"
+// }
+// (2)使用路由懒加载 

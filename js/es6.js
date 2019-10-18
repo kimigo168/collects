@@ -298,3 +298,16 @@ iterator.next() // { value: undefined, done: true }
    })
  }
  // 193
+//  算法运算符 ...
+const pokeman = { name: 'Squirtle', type: 'Water', abilities: ['Torrent', 'Rain Dish']}
+const squirtleClone = { ...pokeman }
+pokeman.name = 'Charmander'
+pokeman.abilities.push('Surf')
+console.log(squirtleClone)
+// { name: 'Squirtle', type: 'Water', abilities: [ 'Torrent', 'Rain Dish', 'Surf' ] }
+
+// 修改原对象的name,克隆对象name不变；但修改原对象的abilities,克隆对象也修改了。原因是，abilities是一个引用类型
+// 解决方法：(1)
+const squirtleClone = { ...pokemon, abilities: [...pokemon.abilities] };
+// (2)深拷贝
+

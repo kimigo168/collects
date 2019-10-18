@@ -71,6 +71,18 @@ if (typeof window === 'object' && typeof window.document === 'object') {
     })
   }
 // 应用：高阶函数，函数柯里化，js闭包，
+// 原理解析：
+var fk = function (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+var cacheFk = cached(fk)
+// 1 step
+cacheFk('ui')
+// 2 step
+cacheFk('ui')
+// 原理函数闭包
+// 1 step 把 执行 函数 得到结果 result, 并且 此时 把 ‘ui’作为key, reault 作为value, 放到 cache 对象里， 2 step 再调 这个函数， 结果直接 取 chche['ui'] ,及相当于少走一步 fk 函数。起到缓存的作用
 
 // P620 看不懂
 // formatComponentName?
+// p480

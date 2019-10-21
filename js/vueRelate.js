@@ -353,3 +353,30 @@ function loadView (view) {
 //   "BMap": "BMap"
 // }
 // (2)使用路由懒加载 
+
+// vue高阶组件
+// 单页应用首屏加载过慢优化：
+// ①使用路由懒加载 ②开启Gzip压缩 ③使用webpack的externals属性把不需要的库文件分离出去，减少打包后文件的大小 ④使用vue的服务端渲染（SSR）
+
+// vue 生命周期的作用：准确的控制数据流和其对dom的影响
+
+// Vue mixin
+// 删除数组用delete和Vue.delete有什么区别？
+// delete：只是被删除数组成员变为 empty / undefined，其他元素键值不变
+// Vue.delete：直接删了数组成员，并改变了数组的键值（对象是响应式的，确保删除能触发更新视图，这个方法主要用于避开 Vue 不能检测到属性被删除的限制）
+
+// v-for 和 v-if 优先级
+// v-for优先级高于v-if，故如果需要两个都存在，v-if尽量在v-for的父级被包裹，避免增加无用的渲染开销。
+// 组件之间通信有哪些？
+// 父子1/2/3  兄弟4/5 跨级 4/5/6/7
+// 1.props  2.$emit/$on  3.($parents/$children) / $refs
+// 4.vuex   5.Bus  6.(provide/inject)  7.(attrs/ $listeners)
+
+// 什么是双向绑定？原理？
+// 通过Observer 把数据劫持(Object.defineProperty()) 、加入到订阅器(Dep) 订阅器收集订阅者(Watcher )、视图通过编译(Compile)、解析指令(Directive)等一些列操作收集给订阅者 、最后通过触发数据变化update 通知所有订阅者完成数据驱动
+
+// vue 和 react区别？
+// display: -webkit-box;
+// -webkit-box-orient: vertical;
+// -webkit-line-clamp: 2;
+// overflow: hidden;

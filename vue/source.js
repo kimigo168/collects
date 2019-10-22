@@ -85,4 +85,22 @@ cacheFk('ui')
 
 // P620 看不懂
 // formatComponentName?
-// p480
+
+var uid = 0
+// 订阅
+/**
+ * A dep is an observable that can have multiple
+ * directives subscribing to it.
+ */
+var Dep = function Dep () {
+  this.id = uid++;
+  this.subs = [];
+}
+
+Dep.prototype.addSub = function addSub (sub) {
+  this.subs.push(sub)
+}
+
+Dep.prototype.removeSub = function removeSub (sub) {
+  remove(this.subs, sub)
+}

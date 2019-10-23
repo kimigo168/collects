@@ -104,3 +104,34 @@ Dep.prototype.addSub = function addSub (sub) {
 Dep.prototype.removeSub = function removeSub (sub) {
   remove(this.subs, sub)
 }
+
+Dep.prototype.depend = function depend () {
+  if (Dep.target) {
+    Dep.target.addDep(this)
+  }
+}
+
+Dep.prototype.notify = function notify () {
+  var subs = this.subs.splice()
+  if (!config.async) {
+    subs.sort(function (a, b) {
+      return a.id - b.id
+    })
+  }
+  for (var i = 0, l = subs.length; i < l; i++) {
+    subs[i].update()
+  }
+}
+
+Dep.target = null;
+var targetStack = [];
+
+function pushTarget (target) {
+  targetStack.push(target);
+  Dep.target = target;
+}
+
+function popTarget () {
+  targetStack.pop();
+  Dep.target = targetStack[targetStack.length - 1];
+}

@@ -380,3 +380,28 @@ function loadView (view) {
 // -webkit-box-orient: vertical;
 // -webkit-line-clamp: 2;
 // overflow: hidden;
+
+// vue-router如何配置404页面 path: '*' 放到最后
+
+// vue-router路由有几种模式？说说他们的区别
+// hash: 使用变更hash不会刷新页面的特性, 来变更路由, 做到单页面无刷新
+// hash表示的是地址栏URL中#符号(也称作为锚点), hash虽然会出现在URL中, 但是不会被包含在Http请求中, 因此hash值改变不会重新加载页面.
+// 由于hash值变化不会引起浏览器向服务器发出请求, 而且hash改变会触发hashchange事件, 浏览器的进后退也能对其进行控制, 所以在HTML5之前, 基本都是使用hash来实现前端路由.
+
+// history: 使用html5的history方法, 不支持老旧浏览器, 但是如果要部署到服务器的化, 需要在ng上进行相应的正向代理跳转, 否则拷贝的链接会打不开
+// 利用了HTML5新增的pushState()和replaceState()两个api, 通过这两个api完成URL跳转不会重新加载页面
+// 同时history模式解决了hash模式存在的问题. hash的传参是基于URL的, 如果要传递复杂的数据, 会有体积限制, 而history模式不仅可以在URL里传参, 也可以将数据存放到一个特定的对象中
+
+// 导航守卫：1全局，2组件内 3.单独路由
+
+// vue-router源码
+// 切换到新路由，页面要滚动到顶部或保持原先滚动位置
+// 在new Router()的时候，配置
+// scrollBehavior(to, from, savedPosition) {
+//   return { x: 0, y: 0 }
+//   }
+
+// $route.query 和 $route.params区别
+// active-class 是vue-router模块的router-link组件中的属性，用来做选中样式的切换；首页
+
+// vuex使用actions时不支持多参数传递怎么办? Object

@@ -178,3 +178,21 @@ $.ajax({
 // JSONP 只支持 GET 请求，JSONP 的优势在于支持老式浏览器，以及可以向不支持 CORS 的网站请求数据。
 // 不管是 Node 中间件代理还是 nginx 反向代理，主要是通过同源策略对服务器不加限制。
 // 日常工作中，用得比较多的跨域方案是 cors 和 nginx 反向代理
+
+
+// import * as XXX from 'xxxx' 和 import XXX from 'xxx'的区别
+// circle.js
+export function area (radius) {
+  return Math.PI * radius * radius
+}
+
+export function circumference (radius) {
+  return 2 * Math.PI * radius
+}
+
+// 引用
+import { area, circumference } from './circle.js'
+// 或
+import * as circle from './circle'
+console.log('圆面积:' + circle.area(4))
+console.log('圆周长：' + circle.circumference(14))

@@ -97,3 +97,41 @@ ReactDOM.render(
 
 // 10.状态提升??
 // 11.组合和继承
+
+// 在JSX类型中使用点语法
+import React from 'react'
+const MyComponents = {
+  DatePicker: function DatePicker (props) {
+    return <div>Imagine a {props.color} datepicker here.</div>
+  }
+}
+
+function BlueDatePicker () {
+  return <MyComponents.DatePicker color="blue" />
+}
+
+function App1 () {
+  return <Greeting firstName="Ben" lastName="Hector"/>
+}
+
+function App2 () {
+  const props = { firstName: 'Ben', lastName: 'Hector'}
+  return <Greeting {...props} />
+}
+
+// Hook
+// 什么是hook?Hook是一些可以让你在函数组件里“钩入” React state及生命周期等特性的函数
+
+import React, { useState } from 'react'
+function Example () {
+  // 声明一个叫count的state变量
+  const [count, setCount] = useState(0)
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  )
+}

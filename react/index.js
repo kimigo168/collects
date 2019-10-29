@@ -135,3 +135,102 @@ function Example () {
     </div>
   )
 }
+
+// Flux
+// 建立客户端web应用的前端架构，它通过利用一个单向数据流补充了React的组合视图组件，更是一种模式
+// 三部分：Dispatcher调度，存储Store和视图View(React 组件)
+
+// 《react实战开发》
+// 事件：
+// onTouchStart onTouchMove onTouchEnd onClick onMouseDown
+// JSX特性：
+// 1.标签特性采用驼峰大小写
+// 2.所有元素必须闭合
+// 3.特性名称基于DOM API
+// 4.JSX不能使用if,但可以使用三元表达式
+render () {
+  return (
+    <div className={condition?"salutation":""}>Hello JSX</div>
+  )
+}
+// 或将条件外置
+render () {
+  let className;
+  if (condition) {
+    className = 'salutation'
+  }
+  return (
+    <div className={className}>Hello JSX</div>
+  )
+}
+
+// 不用JSX可以用React.createElement()
+// React.DOM  工厂函数
+React.DOM.form({className: 'commentForm'},
+  React.DOM.input({type: 'text', placeholder: 'Name'})
+)
+let { form, input} = React.DOM
+// 自定义工厂
+
+/**
+ * 定义内联样式
+ */
+// 样式名称采取驼峰式大小写规则,此外不需要添加px单位 ，如何使用scss,styl等
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+
+class Hello extends Component {
+  render () {
+    let divStyle = {
+      width: 100,
+      height: 30,
+      padding: 5,
+      backgroundColor: '#ee9900'
+    }
+    return <div style={divStyle}>Hello World</div>
+  }
+}
+
+// form控件输入
+class Search extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      searchTerm: 'React'
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange (event) {
+    this.setState({ searchTerm: event.target.value.substr(0, 50) })
+  }
+
+  render () {
+    return (
+      <div>
+        Search Term:
+        <input type="search" value={this.state.searchTerm} onChange={this.handleChange}/>
+        <textarea value={this.state.searchTerm}></textarea>
+      </div>
+    )
+  }
+}
+// 非受控组件
+handleSubmit (event) {
+  console.log('Submitted values are:', event.target.name.value, event.target.email.value, event.target )
+  event.preventDefault()
+}
+render () {
+  return (
+    <form onSubmit={this.handleSubmit}>
+      <div className="formGroup">
+        Name: <input name="name" type="text"/>
+      </div>
+      <div className="formGroup">
+        E-mail: <input name="email" type="email"/>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+// p57

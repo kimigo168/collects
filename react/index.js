@@ -234,3 +234,23 @@ render () {
   )
 }
 // p57
+// 检验组件属性
+import React, { Component, PropTypes } from 'react'
+import { render } from 'react-dom'
+
+class Greeter extends Component {
+  render () {
+    return (
+      <h1>{this.props.salutation}</h1>
+    )
+  }
+}
+Greeter.protoTypes = {
+  salutation: PropTypes.string.isRequired
+}
+Greeter.defaultProps = {
+  salutation: 'Hello World'
+}
+render(<Greeter salutation="Hello world"/>, document.getElementById('root'))
+
+// P69

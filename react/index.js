@@ -325,3 +325,26 @@ let contacts = [
   { name: 'Dan Abramov', email: 'gsds@somewhere.com'}
 ]
 render(<ContactApp contacts={contacts} />, document.getElementById('root'))
+
+// 错误方式：
+let updatedPassengers = this.state.passengers; // 引用
+updatedPassengers.push('Mitchell, Vincent M')
+this.setState({passengers: updatedPassengers}) // 实际上是直接修改的state
+// 采用非入侵方式，map, filter, contact,返回新的数组
+// 正确方式
+let updatedPassengers = this.state.passengers.contact('Mitchell, Vincent M.')
+this.setState({passengers: updatedPassengers})
+// 或者采用Object.assign
+let updatedTicket = Object.assign({}, this.state.ticket, {flightNo: '10002'})
+this.setState({ticket: updatedTicket})
+
+// 深度副本耗性能
+// react不变性助手，react-addons-update,函数不会修改这些对象，而是总返回一个新的可变对象
+import update from 'react-addons-update'
+let newTicket = update(originalTicket, { arrival: {airport: {$set: 'MCO'}}})
+// 只有新的newTicket变化了，originalTicket不变
+// 第三章
+// 组件分类：有状态组件（包含内部state）和单纯组件（没有内部state,只显示通过props接收到的数据）
+
+// ReactCSSTransitionGroup，它以插件的形式提供动画过渡效果
+// npm install --save react-addons-css-transition-group

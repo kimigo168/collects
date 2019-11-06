@@ -348,3 +348,5 @@ let newTicket = update(originalTicket, { arrival: {airport: {$set: 'MCO'}}})
 
 // ReactCSSTransitionGroup，它以插件的形式提供动画过渡效果
 // npm install --save react-addons-css-transition-group
+
+// p254

@@ -224,3 +224,64 @@ React.render((
 // 绝对路径
 {/* <Route path="/messages/:id" component={Message} /> */}
 // /messages/:id  App -> Inbox -> Message
+
+const routeConfig = [
+  {
+    path: '/',
+    component: App,
+    indexRoute: { component: Dashboard },
+    childRoutes: [
+      { path: 'about', component: About },
+      { path: 'inbox',
+        component: Inbox,
+        childRoutes: [
+          { path: '/message/:id', component: Message },
+          { path: 'message/:id', 
+            onEnter: function (nextState, replaceState) {
+              replaceState(null, '/messages/' + nextState.params.id)
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+
+// React Router基于history之上，有三种形式：
+// browserHistory, hashHistory, createMemoryHistory
+
+import { browserHistory } from 'react-router'
+render(
+  <Router history={browserHistory} routes={routes} />,
+  document.getElementById('app')
+)
+
+import { Lifecycle } from 'react-router'
+const Home = React.createClass({
+  mixins: [Lifecycle],
+  routerWillLeave (nextLocation) {
+    if (!this.state.isSaved) {
+      return 'Your work is not saved!Are you sure you want to leave?'
+    }
+  }
+})
+// 在深层嵌套的组件中使用
+import { Lifecycle, RouteContext } from 'react-router'
+const Home = React.createClass({
+  // route 会被放到 Home 和它子组件及孙子组件的 context 中，
+  // 这样在层级树中 Home 及其所有子组件都可以拿到 route。
+  mixins: [RouteContext],
+  render () {
+    return <NestedForm />
+  }
+})
+const NestedForm = React.createClass({
+  // 后代组件使用 Lifecycle mixin 获得
+  // 一个 routerWillLeave 的方法。
+  mixins: [Lifecycle],
+  routerWillLeave (nextLocation) {
+    if (!this.state.isSaved) {
+      return 'Your work is not saved!'
+    }
+  }
+})

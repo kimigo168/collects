@@ -1,64 +1,74 @@
-import { createStore } from 'redux'
-function counter (state = 0, action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    default:
-      return state;
-  }
-}
-// 创建Redux store来存放应用的状态
-// API 是 { subscribe, dispatch, getState }
-let store = createStore(counter)
-// 可以手动订阅更新，也可以事件绑定到视图层
-store.subscribe(() => {
-  console.log(store.getState())
-})
-// 改变内部state唯一方法是dispatch 一个action
-store.dispatch({type: 'INCREMENT'})
-store.dispatch({type: 'INCREMENT'})
-store.dispatch({type: 'DECREMENT'})
+// action 是把数据从应用传到store的有效载荷，它是store数据的唯一来源，一般通过store.dispatch()来将action传到store
 
-// 编写专门的函数来决定每个action如何改变应用的state,这个函数叫reducer
+// 当应用规模越来越大，建议使用单独的模块或文件来存action
+import { ADD_TODO, REMOVE_TODO } from './actionTypes'
 
-// redux试图让state变化变得可预测
-// state：一个对象
-
-// Action是一个普通得javascript对象，用来描述发生了些什么。示例：
-// { type: 'ADD_TODO', text: 'Go to swimming pool'}
-// {type: 'TOGGLE_TODO', index: 1}
-
-// 把action和state串起来，开发一些函数，就是reducer
-// reducer只是接收state和action,并返回新的state函数
-
-// 对于大应用来说，可以编写很多个小函数来分别管理state的一部分
-
-function visibilityFilter (state = 'SHOW_ALL', action) {
-  if (action.type === 'SET_VISIBILITY_FILER') {
-    return action.filter
-  } else {
-    return state
-  }
-}
-
-function todos (state = [], action) {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return state.concat([{text: action.text, completed: false}])
-    case 'TOGGLE_TODO':
-      return state.map((todo, index) => {
-        action.index === index ? {text: todo.text, completed: !todo.completed} : todo
-      })
-    default: 
-      return state;
-  }
-}
-
-function todoApp (state = {}, action) {
+// action创建函数，只是简单的返回一个action
+function addTodo (text) {
   return {
-    todos: todos(state.todos, action),
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
+    type: 'ADD_TODO',
+    text
   }
 }
+// Redux 中只需把 action 创建函数的结果传给 dispatch() 方法即可发起一次 dispatch 过程
+dispatch(addTodo(text))
+// 或者创建一个被绑定的action创建函数来自动dispatch
+const boundAddTodo = text => dispatch(addTodo(text))
+boundAddTodo(text)
+
+// bindActionCreators可以自动把多个action创建函数绑定到dispatch()方法上
+
+// TodoActionCreators.js
+export function addTodo (text) {
+  return {
+    type: 'ADD_TODO',
+    text
+  }
+}
+
+export function removeTodo (id) {
+  return {
+    type: 'REMOVE_TODO',
+    id
+  }
+}
+// SomeComponent.js
+import { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import * as  TodoActionCreators from './TodoActionCreators'
+
+class TodoListContainer extends Component {
+  constructor (props) {
+    super(props)
+    const {dispatch} = props;
+
+    this.boundActionCreators = bindActionCreators(TodoActionCreators, dipatch)
+    console.log(this.boundActionCreators)
+    // {
+    //   addTodo: Function,
+    //   removeTodo: Function
+    // }
+  }
+  componentDidMount () {
+    // 由react-redux注入的dispatch
+    let { dispatch } = this.props
+    let action = TodoActionCreators.addTodo('Use Redux')
+    dispatch(action)
+  }
+
+  render () {
+    // 由react-redux注入的todos
+    let {todos} = this.props
+    return (<TodoList todos={todos} {...this.boundActionCreators} />)
+    // return <TodoList todos={todos} dispatch={dispatch} />;
+  }
+}
+export default connect(
+  state => ({todos: state.todos})
+)(TodoListContainer)
+
+// Reducer 指定了应用状态的变化如何响应actions并发送到store的，action只是描述了有事情发生的这一事实，并没有描述应用如何更新state
+// (previousState, action) => newState
+// 保持 reducer 纯净非常重要

@@ -126,3 +126,5 @@ function getBase64Image(img) {
   var dataURL = canvas.toDataURL("image/png");
   return dataURL
 }
+
+// setTimeout

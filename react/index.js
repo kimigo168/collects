@@ -350,3 +350,16 @@ let newTicket = update(originalTicket, { arrival: {airport: {$set: 'MCO'}}})
 // npm install --save react-addons-css-transition-group
 
 // p254
+// Can only update a mounted or mounting component. This usually means you called setState() on an       
+//  unmounted component. This is a no-op. Please check the code for the undefined component.
+componentDidMount () {
+  this.isMount = true
+  axios.post().then((res) => {
+    this.isMount && this.setState({
+
+    })
+  })
+}
+componentWillUnmount () {
+  this.isMount = false
+}

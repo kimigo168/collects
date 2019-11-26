@@ -5,3 +5,6 @@
 // 自定义指示符
 const antIcon = <Icon type="loading" style={{fontSize:24}} spin />
 ReactDOM.render(<Spin indictor={antIcon}/>, mountNode)
+
+// 表单
+this.props.form.getFieldsValue()

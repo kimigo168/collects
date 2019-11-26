@@ -1,0 +1,15 @@
+/* 1.无需为position:absolute(fixed) 设置display:block,浏览器默认添加 */
+
+/* 2.伪类三角形 */
+/* 左 */
+/* &::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid #fff;
+  position: absolute;
+  left: -10px;
+  top: 80px;
+} */

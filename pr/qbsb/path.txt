@@ -1,4 +1,0 @@
-
-文档地址
-http://172.16.36.111:8081/c-oms/swagger/
-http://172.16.36.111:8081/c-oms/v2/api-docs.do

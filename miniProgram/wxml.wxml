@@ -1,0 +1,33 @@
+<!-- 组件属性 -->
+<view id="item-{{id}}"></view>
+<!-- 控制属性 -->
+<view wx:if="{{condition}}"></view>
+
+<checkbox checked="{{false}}"></checkbox>
+<!-- 三元运算 -->
+<view hidden="{{ flag ? true : false}}">Hidden</view>
+
+<!-- 列表渲染 -->
+<!-- 默认 -->
+<view wx:for="{{array}}">
+  {{index}}: {{item.message}}
+</view>
+<!-- 自定义 -->
+<view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName">
+  {{idx}}:{{itemName.message}}
+</view>
+
+
+<!-- 将 wx:for 用在<block/>标签上，以渲染一个包含多节点的结构块 -->
+<block wx:for="{{[1,2,3]}}">
+  <view>{{index}}:</view>
+  <view>{{item}}</view>
+</block>
+
+<!-- wx:key作用 -->
+<!-- 当数据改变触发渲染层重新渲染时，会校正带有key的组件，框架会确保他们被重新排序，而不是重新创建，以确保组件保持自身的状态，并且提高渲染列表时的效率。如果不提供wx:key,会报一个warning -->
+
+<!-- wx:if vs hidden -->
+<!-- 一般来说，wx:if 有更高的切换消耗而 hidden 有更高的初始渲染消耗.如果需要频繁切换的情景下，用 hidden 更好，如果在运行时条件不大可能改变则 wx:if 较好。 -->
+
+<!-- include公共部分引用 -->

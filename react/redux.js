@@ -72,3 +72,43 @@ export default connect(
 // Reducer 指定了应用状态的变化如何响应actions并发送到store的，action只是描述了有事情发生的这一事实，并没有描述应用如何更新state
 // (previousState, action) => newState
 // 保持 reducer 纯净非常重要
+
+// eg:
+const state = {
+  todos: [{text: 'eat food', completed: true}, {text: 'Exercise', completed: false}],
+  visibilityFilter: 'SHOW_COMPLETED'
+}
+// action示例
+// {type: 'ADD_TODO', text: 'go to swimming pool'}
+// {type: 'TOGGLE_TODO', index: 1}
+// {type: 'SET_VISIBLITY_FILTER', filter: 'SHOW_ALL'}
+
+// reducers:
+function visibilityFilter (state = 'SHOW_ALL', action) {
+  if (action.type === 'SET_VISIBILITY_FILTER') {
+    return action.filter
+  } else {
+    return state
+  }
+}
+
+function todos(state = [], action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return state.concat([{ text: action.text, completed: false }]);
+    case 'TOGGLE_TODO':
+      return state.map((todo, index) =>
+        action.index === index ? { text: todo.text, completed: !todo.completed } : todo
+      )
+    default:
+      return state
+  }
+}
+
+// 合并上面两个reducer
+function todoApp (state = {}, action) {
+  return {
+    todos: todos(state.todos, action),
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
+  };
+}
